@@ -1,71 +1,55 @@
-# Jekyll / Chirpy config for gotocloud.co.kr archive
 title: GotoCloud
-description: "gotocloud.co.kr archive — cloud & IT technology blog"
-url: "https://bosung-gotocloud.github.io"
-baseurl: "/gotocloud-co-kr"
+description: "gotocloud.co.kr archive \u2014 cloud & IT technology blog"
+url: https://bosung-gotocloud.github.io
+baseurl: /gotocloud-co-kr
 lang: ko-KR
-
 theme: jekyll-theme-chirpy
-
 author:
   name: GotoCloud
   email: gotocloudkr@gmail.com
-
 permalink: /posts/:year/:month/:day/:title/
-
 paginate: 10
 paginate_path: /page:num/
-
 exclude:
-
-  - posts.json
-  - .gitignore
-  - README.md
-  - Dockerfile
-  - starter/
-
-collections:
-  posts:
-    output: true
-
+- posts.json
+- .gitignore
+- README.md
+- Dockerfile
+- starter/
 defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      toc: true
-      pagination: true
-
+- scope:
+    path: ''
+    type: posts
+  values:
+    layout: single
+    author_profile: true
+    read_time: true
+    comments: false
+    share: true
+    related: true
+    toc: true
+    pagination: true
 sidebar:
   title: GotoCloud
   back_to_top: true
   nav: true
-
 posts:
   show_related: true
-
 read_time:
   words_per_minute: 200
-
 theme_config:
   skin: light
   dark_mode: true
   source: github
   show_reading_progress: true
-
 analytics:
   provider: google
   google:
-    id: ""
-
+    id: ''
 jekyll-archives:
-  enabled: [categories, tags]
+  enabled:
+  - categories
+  - tags
   layout: archive
   permalinks:
     category: /categories/:name/
