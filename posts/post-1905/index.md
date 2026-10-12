@@ -1,0 +1,9 @@
+---
+title: "4차 산업혁명 시대의 드론 산업과 일자리 전망"
+date: 2018-10-25T00:19:30+09:00
+source: https://gotocloud.co.kr/?p=1905
+categories: []
+tags: []
+---
+
+> 📺 [YouTube](https://www.youtube.com/embed/lNcckKACeNw?enablejsapi=1&autoplay=0&cc_load_policy=0&cc_lang_pref=&iv_load_policy=1&loop=0&rel=1&fs=1&playsinline=0&autohide=2&theme=dark&color=red&controls=1&disablekb=0&)

@@ -1,0 +1,308 @@
+---
+title: "개인용 클라우드 &#8211; 1. 메일 서버 설치"
+date: 2013-04-16T13:24:35+09:00
+source: https://gotocloud.co.kr/?p=697
+categories: []
+tags: []
+---
+
+## 1. 개인용 클라우드를 위한 메일 서버
+
+개인용(Personal) 클라우드 서비스 통합이라는 글에서 논하였듯이 구글, 마이크로소프트 및 네이버는 메일 서비스를 기반으로 클라우드 서비스를 통합하여 제공하고 있다. 마찬가지로 사설 클라우드 서비스를 위해 마이크로소프트는 Exchange 서버와 Active Directory 서버를 핵심 솔루션으로 제공하고 있다. 이러한 관점에서 오픈 소스를 기반으로 한 개인용 클라우드도 메일 서비스를 중심으로 통합이 필요하다는 관점에서 먼저 오픈소스 기반의 메일 서버를 구축하고 이를 바탕으로 기타 서비스로 개인용 클라우드 서비스를 추가해보고자 한다. 오픈 소스 기반의 메일 서버로는 sendmail, qmail 을 기반으로 수많은 솔루션과 패키지가 발표되었고, 이를 바탕으로 웹메일, pop3, imap 등을 지원하고 있다. (오픈 소스 기반의 다양한 메일 솔루션에 대해서는 Comparison of mail servers를 참조하기 바란다) 이 글에서는 다음의 요구 조건에 적합한 메일 서버를 선택하고자 한다.
+
+- OpenLDAP 인증: OpenLDAP 인증을 통해 메일 ID를 다른 클라우드 서비스에서 연동
+
+- 웹메일 지원: Web Mail 제공
+
+- Anti-Spam & Anti-Virus
+
+- Linux 지원 및 Open Source 솔루션
+
+- 설치 및 관리 용이성
+
+위의 요구 사항을 지원하는 많은 메일 서버 중에서 이 글에서는 iRedMail을 채택하고 이를 바탕으로 개인용 클라우드 서비스 구축을 시작하고자 한다.
+
+## 2. iRedMail 주요 특징
+
+오픈소스 메일 서버인 iRedMail은 다음과 같은 특징을 갖고 있다. 자세한 내용은 iRedMail 주요 특징을 참조하기 바란다.
+
+- Works on 9 Major Linux/BSD Distributions
+
+- Fast Deployment, Low Maintenance, Unlimited Accounts
+
+- Stores Mail Accounts in OpenLDAP, MySQL or PostgreSQL
+
+- Service Restrictions
+
+- Sender & Recipient Throttling
+
+- Anti-Spam & Anti-Virus
+
+- WebMail: AJAX, Global LDAP Address Book, Vacation, Filter
+
+- Misc
+
+- Main components and working process
+
+위의 특징 중에서 필자가 특히 중점적으로 생각하는 것은 OpenLDAP, MySQL 또는 PostgrSQL을 이용하여 메일 계정을 지원하고 있다는 점이며 그 중에서 OpenLDAP을 통해 타 서비스와 손쉽게 계정 연동이 가능하다는 점이다. 많은 솔루션이 OpenLDAP을 지원하고는 있지만 대부분이 별도의 OpenLDAP 서버를 구축하고 이를 연동해야하므로 관리자가 LDAP 서비스에 대한 이해와 관리가 필요한 반면 iRedMail은 메일 서버를 설치할 때 OpenLDAP 서버도 함께 설치되며 메일 관리자가 계정을 생성하면 자동으로 OpenLDAP 에 계정이 생성되므로 특별히 OpenLDAP 관리에 많은 노력이 필요하지 않다는 점이 매력적이라고 볼 수 있다. (물론 OpenLDAP에 대한 상세한 관리도 가능하다) 그 외에도 RoundCube 웹메일이 함께 설치된다는 점도 별도의 웹메일 솔루션을 설치하고 관리할 필요가 없다는 점에서 설치 및 관리 편의성이 증대된다고 할 수 있다. 그리고 메일 서버 설치시에 기본적인 스팸 차단 및 바이러스 차단이 가능하다는 것도 장점이다. iRedMail은 오픈소스 버전과 몇 가지 추가 기능과 기술지원이 포함된 상용 버전(iRedMail Pro)을 동시에 제공하고 있으며 두 버전의 차이는 http://www.iredmail.com/admin_panel.html 에 설명되어 있다.
+
+## 3. CentOS 6 리눅스 설치
+
+iRedMail을 설치하기 위한 운영체제로 CentOS 6 64bit 버전을 선택하고 다음의 과정으로 운영체제를 준비한다.
+
+### 3.1 서버에 직접 리눅스 설치
+
+리눅스 서버를 설치하기 위해서는 서버를 준비하고, 리눅스 OS를 선택하고 리눅스 설치과정에 따라서 설치해야하는데 이 과정을 직접 할 수 있는 장비와 리눅스 지식을 갖춘 사람이라면 CentOS 6 64bit 버전을 자신의 서버에 직접 설치한다. CentOS를 설치할 때는 최소 설치(Minimal)로 옵션으로 설치한다. CentOS 6 설치 과정은 여기를 참조하기 바란다.
+
+### 3.2 클라우드 서버에 리눅스 서버 생성
+
+iRedMail을 설치하기 위해 리눅스 서버를 손쉽게 생성하고 바로 인터넷에서 서비스 가능하도록 하기 위해서 클라우드 서버를 사용하는 것이 좋은 선택이 될 수 있다. 클라우드 업체에서 제공하는 서버를 사용할 경우 저렴한 비용으로 회선과 공인 IP 까지 제공받을 수 있으므로 이 글에서는 클라우드 서버에 리눅스 서버를 생성한 다음에 iRedMail를 설치할 수 있다.
+
+클라우드 서버로 CentOS 6 64bit 서버를 만드는 방법에 대해서는 클라우드 서버 생성이라는 글을 따라 그대로 수행하면 된다.
+
+### 3.3 리눅스 서버 구성
+
+서버를 직접 설치하든 클라우드 서버로 구성하든 CentOS 리눅스 서버의 관리자로 직접 로그인할 수 있는 서버가 준비되면 기본적인 리눅스 서버 구성을 시작한다. (아래의 내용은 클라우드 서버 생성을 통해 생성된 서버에 해당되며 직접 설치한 경우에 대해서는 별도로 설명할 것이다.)
+
+설치된 리눅스 서버에 root 관리자로 로그인한 다음에 다음의 설정을 진행한다.
+
+먼저 SELinux를 비활성화한다. SELinux는 리눅스의 보안을 강화하기 위한 소프트웨어로 서버에 있는 파일 하나 하나에 대한 보안 권한을 설정할 수 있는 대단히 강력한 프로그램이지만 제대로 설정하지 못하면 서버에 불필요한 부하가 가해질 뿐 아니라 서비스 별로 일일이 SELinux 규칙을 정해줘야하므로 일반적인 서비스에서는 비활성화해두는 것이 편하다. 물론 그렇다고 보안에 구멍이 생기는 것은 아니고 방화벽 등 다른 방법으로 보안을 강화할 것이므로 크게 걱정하지 않아도 된다.
+
+### a) SELinux 비활성화
+
+다음의 명령어로 SELinux를 비활성화 한다.
+
+> # setenforce 0
+
+시스템 재시작 시 SELinux가 비활성화 되도록 /etc/sysconfig/selinux 파일을 열어서 중간의 SELINUX=enabled 부분을 그림과 같이 disabled로 수정한다.
+
+![](images/22-300x88.png)
+
+### b) 방화벽 설정
+
+다음으로 리눅스 서버의 방화벽 설정을 확인한다. 리눅스는 기본적으로 보안을 위해 허가된 포트 이외에는 모두 차단하도록 되어 있다. 기본적으로 ssh 접속을 위한 22번 포트만 개방되어 있는데 /etc/sysconfig/iptables 파일의 중간부분에 -A INPUT -m state –state NEW -m tcp -p tcp –dport 22 -j ACCEPT 로 ssh 포트가 개방되어 있는지 확인한다. 그리고 아래와 같이 방화벽 서비스를 실행하고 시스템 시작시에 방화벽 서비스가 실행되도록 지정한다.
+
+> # service iptables restart
+> # chkconfig iptables on
+
+ssh 포트 이외의 iRedMail에서 사용하는 포트는 iRedMail 설치 과정에서 설정이 진행되므로 여기에서는 원격 접속을 위해 ssh만 개방한다.
+
+### c) 시간동기화
+
+다음의 명령으로 리눅스 서버의 시간을 인터넷 시간과 일치하도록 ntpd라는 시간동기화 서비스를 활성화하고 시스템 시작시에 항상 실행되도록 등록한다. ntpd를 실행하기 전에 서버가 인터넷에 접속이 가능하도록 설정되어 있어야한다. 클라우드 서버 생성의 3.네트워크 생성을 참조하기 바란다.
+
+> # yum -y install ntp
+> # service ntpd start
+> # chkconfig ntpd on
+
+### d) 호스트 네임 설정
+
+다음의 명령어로 호스트 네임을 등록한다. sendmail은 서버의 호스트 네임이 /etc/hosts에 등록되어 있거나 DNS에 등록되어 있어야 발송에 문제가 없는데, 다음의 명령어로 호스트네임을 지정해준다. 직접 운영 체제를 설치한 경우는 /etc/hosts 파일에 hostname과 ip 주소를 지정하고 /etc/sysconfig/network를 원하는 호스트 네임으로 설정한다.
+
+> # sed -i “s/127.0.0.1/127.0.0.1 mail.local mail/” /etc/hosts
+> # echo “HOSTNAME=mail.local” >> /etc/sysconfig/network
+
+위의 명령을 수행한 후 시스템을 재시작한다.
+
+## 4. iRedMail 설치
+
+리눅스 서버 구성을 완료한 후 다음의 명령어로 iRedMail 패키지를 다운로드하고 압축을 해제한다.  다운로드 사이트에서 최신 버전을 다운 받는다. (아래의 예는 0.8.5 버전을 기준으로 설명되어 있다.)
+
+> # cd ~
+> # wget https://bitbucket.org/zhb/iredmail/downloads/iRedMail-0.8.5.tar.bz2
+> # tar jxvf iRedMail-0.8.5.tar.bz2
+
+압축을 해제한 후 압축 해제된 디렉토리인 다음 명령어로 iRedMail에서 설치를 시작한다.
+
+> # cd iRedMail-0.8.5
+> # bash iRedMail.sh
+
+설치 스크립트인 iRedMail.sh를 실행하면 몇 가지 압축이 해제되면서 다음과 같은 설치 화면으로 진행한다. 이 글에서는 각 설치 화면에 대해서 그림 아래에 설명을 하고 있다.
+
+![](images/윈도우-컨트롤-1-300x178.png)
+
+위의 화면은 iRedMail 설치를 시작하는 화면으로 Yes를 눌러서 설치를 시작한다.
+
+![](images/윈도우-컨트롤-2-300x178.png)
+
+메일을 저장할 디렉토리를 지정한다. 기본적으로는 /var/vmail 아래에 사용자 메일이 저장된다. 저장 공간이 충분한 디렉토리를 지정한다. 여기에서는 기본값인 /var/vmail로 둔다.
+
+![](images/윈도우-컨트롤-3-300x178.png)
+
+다음으로 사용자 계정을 저장할 Backend와 웹메일 및 웹 기반 관리프로그램을 선택한다. iRedMail에서는 OpenLDAP, MySQL 및 PostgreSQL 등 세가지의 Backend를 지원하며 웹메일로는 Roundcube 웹메일, 웹 기반 관리툴로 iRedAdmin과 함께 openLDAP 관리툴인 phpLDAPadmin, MySQL 관리툴인 phpMyAdmin 및 PostgreSQL 관리툴인 phpPgAdmin을 각 Backend 관리툴로 제공하고 있다. 이 글에서는 OpenLDAP에 저장된 메일 계정을 기반으로 개인용 클라우드 서비스를 통합할 예정이므로 OpenLDAP을 Backend로 선택한다.
+
+![](images/윈도우-컨트롤-4-300x178.png)
+
+다음으로 LDAP 최상위 관리자의 DN(Distinguished Name)인 root dn을 지정한다. 예제에서 볼 수 있듯이 사용하고자 하는 도메인이 example.com 이라면 dc=example, dc=com 과 같이 입력한다. 만약 gotocloud.kr 이라면 dc=gotocloud, dc=kr 과 같은 형태가 된다. 메일 서버의 도메인 네임을 지정하는 것이 일반적이나 iRedMail은 실제 사용될 여러 도메인을 메일 서버 자체에서 지정할 수 있으므로 여기서는 관리를 위해 gotocloud.local과 같은 형태로 실제 도메인이 아닌 관리용 도메인을 root dn으로 지정하는 것을 권장한다. gotocloud.local 을 root dn으로 등록하고자 할 경우 dc=gotocloud, dc=local로 입력한다.
+
+![](images/윈도우-컨트롤-5-300x178.png)
+
+다음으로 LDAP 최상위 관리자 암호를 지정한다. root dn을 나타내는 CN(Common Name)은 cn=Manager,dc=gotocloud,dc=local로 설치 완료 후에 LDAP 서버에 로그인하고자 할 때는 CN과 여기에서 지정한 암호로 로그인하게 된다. 즉 cn=Manager,dc=gotocloud,dc=local이 LDAP 서버 관리자 계정이 된다.
+
+![](images/윈도우-컨트롤-6-300x178.png)
+
+iRedMail이 내부적으로 사용하는 MySQL 데이터베이스 관리자 암호를 입력한다.
+
+![](images/윈도우-컨트롤-7-300x178.png)
+
+여기에는 첫번째 가상 도메인 이름(virtual domain name)을 입력한다. 사용하고자 하는 메일 서버의 도메인이 여러 개일 경우에는 iRedMail 관리 화면에서 추가할 수 있다. 여기에서는 앞에서 설명한 바와 같이 관리용 도메인을 입력하도록 한다. 물론 메일 도메인을 하나만 사용할 경우에는 여기에 example.com 과 같이 입력해도 된다. 이 글에서는 앞의 root dn에 지정한 관리용 도메인인 gotocloud.local을 입력한다. 주의할 점은 메일 서버의 호스트 네임(이글에서는 mail.local)을 사용해서는 안된다는 점이다.
+
+![](images/윈도우-컨트롤-8-300x178.png)
+
+첫번째 가상 도메인의 관리자 계정인 postmaster@gotocloud.local의 암호를 입력한다. 이 계정이 웹메일과 iRedAdmin의 관리자 계정이며 여기에서 지정한 암호로 로그인할 수 있다.
+
+![](images/윈도우-컨트롤-9-300x178.png)
+
+그 다음 과정에서는 OpenLDAP Backend에서 사용되는 추가 기능을 설치하게 된다. 각 기능에 대한 요약이 같이 설명되어 있는데 필요한 기능을 선택해서 설치한다. 이 글에서는 모두 설치하기로 한다.
+
+- DKIM signing/verification: DomainKeys Identified Mail의 약자로 SPF(Sender Policy Framwork, 메일서버등록정책) 중의 하나로 특정 도메인을 사용하는 메일은 특정 IP에서만 발송된다는 정책을 지원하는 메일 인증 표준 중의 하나인 DKIM 설치 여부를 선택한다. DKIM에 대한 자세한 내용은 SPF란 무엇인가라는 글을 참조하기 바란다.
+
+- iRedAdmin: 웹기반의 iRedMail 관리툴인 iRedAdmin 설치 여부를 선택한다.
+
+- Roundcubemail: iRedMail 설치 시에 Roundcube 웹메일을 같이 설치할 것인지를 선택한다.
+
+- phpLDAPadmin: php 기반의 LDAP 관리툴인 phpLDAPadmin을 설치할 것인지 선택한다.
+
+- phpMyAdmin: MySQL 관리툴인 phpMyAdmin을 설치할 것인지 선택한다.
+
+- Awstats: 로그 분석툴인 Awstats를 설치할 것인지 선택한다.
+
+- Fail2ban: 틀린 암호를 계속 입력하는 IP를 차단하는 Fail2ban의 설치 여부를 선택한다.
+
+설치 화면의 설명에서 보듯이 DKIM을 설치할 경우 SPF가 기본으로 실행되는데 네임 서버에 TXT 필드가 필요하므로 이에 대해서는 설치 후의 네임 서버 설정에서 설명하고자 한다.
+
+![](images/윈도우-컨트롤-10-300x178.png)
+
+설정이 정상적으로 완료되었는지에 대한 메시지와 함께 계속 진행할 것인지를 확인한다. Y를 눌러 설치를 진행한다.
+
+![](images/윈도우-컨트롤-11-300x178.png)
+
+iRedMail에서 사용할 패키지 다운로드가 시작된다. 다운로드 실패한 패키지가 있을 경우 다시 다운로드를 진행하면 된다.
+
+![](images/윈도우-컨트롤-12-300x178.png)
+
+필수 패키지 다운로드가 완료되면 패키지 설치가 진행된다.
+
+![](images/윈도우-컨트롤-13-300x178.png)
+
+패키지 설치가 완료되면  SSL 인증서 파일 생성, 시스템 계정 생성, 웹 서버 설정, OpenLDAP 설정 등이 순차적으로 자동으로 진행된다.
+
+![](images/윈도우-컨트롤-14-300x178.png)
+
+설정이 완료되면 SELinux 비활성화, iRedMail에서 사용하는 포트에 대한 방화벽 설정을 진행할 것인지 물어본다. 그리고 ssh 포트로 22번을 사용할 것인지 물어보는데 여기서는 Y를 눌러서 권장 사항 대로 방화벽 설정을 진행한다. 설치가 완료된 후 /etc/sysconfig/iptables를 수정하여 설정을 변경할 수 있다.
+
+![](images/윈도우-컨트롤-15-300x178.png)
+
+방화벽 설정이 끝나면 방화벽 서비스를 재시작할 것인지에 대해 Y를 선택하고 다음으로 진행한다.
+
+![](images/윈도우-컨트롤-16-300x178.png)
+
+MySQL 설정 파일인 /etc/my.cnf에 대해서 iRedMail에 포함된 파일로 설정을 진행할 것인지를 선택한다.  기본값인 Y를 선택하고 다음으로 진행한다. 사용자가 MySQL에 대한 설정을 직접하고자 할 경우는 N을 선택하고 /etc/my.cnf를 직접 수정한다.
+
+![](images/윈도우-컨트롤-17-300x178.png)
+
+다음으로는 메일 서버에서 사용하는 바이러스 백신인 Clam AV(Anti-Virus) 엔진인 clamav를 업데이트하고 최신 정책을 다운로드한다. 이 과정에서 접속 가능한 미러 서버를 순차적으로 접속하여 다운로드하게 되는데 경고 메시지와 실패 메시지가 나오더라도 인내심을 갖고 기다리면 된다.
+
+![](images/윈도우-컨트롤-18-300x178.png)
+
+ClamAV 미러 서버에 접속되면 그림과 같이 정책 다운로드가 시작된다.
+
+![](images/윈도우-컨트롤-19-300x178.png)
+
+설치가 완료되면 위의 그림과 같이 설치 성공 메시지와 접속 주소, 초기 접속 암호 등이 표시되며 시스템을 재시작하면 된다.
+
+## 5. 설치 후 확인
+
+### 5.1 iRedMail에서 사용하는 포트
+
+iRedMail에서는 다음의 포트를 사용하는데 필요할 경우 방화벽에서 개방해야 한다.
+
+- SMTP (메일 전송 포트) : 25/TCP
+
+- Submission (대체 전송 포트) : 587/TCP, 스팸 방지를 위해 25번 포트를 막아놓은 경우가 많으므로 587을 사용함
+
+- POP3 (POP3 포트) : 110/TCP
+
+- POP3s (Secure POP3 포트) :  995/TCP
+
+- IMAP (IMAP 포트) : 143/TCP
+
+- IMAPs (Secure IMAP 포트) : 993/TCP
+
+- HTTP : 80/TCP
+
+- HTTPS : 443/TCP
+
+- SSH (Secure Shell) : 22/TCP
+
+이 외에 LDAP 및 FTP 등에 대해서도 /etc/sysconfig/iptables 에 설정이 되어 있으므로 자세한 내용은 방화벽 설정 파일인 /etc/sysconfig/iptables를 참조하기 바란다.
+
+### 5.2 설치 확인
+
+iRedMail이 정상적으로 설치되었는지를 확인하는 과정은 다음과 같다.
+
+### a) 웹메일 테스트
+
+https://iredmail-adress 와 같이 메일 서버에 접속하면 다음과 같이 로그인 화면이 나타난다. 이 때 인증서 경고는 무시한다. 추후 필요시 웹서버 인증서를 설치하기를 권장한다. 메일 관리자 계정인 postmaster@gotocloud.local 을 입력하고 설치 과정에서 지정한 postmaster@gotocloud.local 의 암호를 입력한다.
+
+![](images/윈도우-컨트롤-110-300x144.png)
+
+정상적으로 로그인이 되면 다음과 같이 웹메일 화면이 나타나며 설치에 관련된 내용이 메일로 수신되어 있음을 볼 수 있다.
+
+![](images/윈도우-컨트롤-21-300x158.png)
+
+### b) iRedAdmin 테스트
+
+다음으로 메일 관리툴인 iRedAdmin에 로그인한다. 주소창에 https://iredmail-address/iredadmin 을 입력하면 다음과 같은 관리툴 로그인 창이 나타나며 여기에 postmaster@gotocloud.local 을 입력하고 암호를 입력한다. 그림과 같이 오른쪽 하단의 언어 탭을 선택하여 기본 언어를 변경할 수 있다. 아직 한글이 지원되지 않는다는 점이 아쉽다.
+
+![](images/윈도우-컨트롤-31-300x144.png)
+
+로그인에 성공하면 다음과 같은 초기 화면이 나타난다.
+
+![](images/윈도우-컨트롤-41-300x144.png)
+
+시스템 정보와 iRedMail Pro 버전의 특징과 Pro 버전으로의 업그레이드를 홍보하는 내용을 볼 수 있다. 자세한 메뉴 및 설정에 대해서는 추후에 별도로 설명하고자 하니 여기에서는 정상적인 로그인 여부만 확인한다.
+
+### c) MySQL Admin 테스트
+
+MySQL 서버가 정상적으로 설치되었는지 확인하기 위해 주소창에 https://iredmail-address/phpmyadmin을 입력하면 그림과 같이 phpMyAdmin 로그인 화면이 나타난다. 여기에 root 를 입력하고  MySQL 데이터베이스 관리자 암호를 입력한다.
+
+![](images/윈도우-컨트롤-51-300x144.png)
+
+로그인에 성공하면 다음과 같이 설치된 MySQL에 대한 정보가 표시된다.
+
+![](images/윈도우-컨트롤-61-300x144.png)
+
+### d) OpenLDAP 테스트
+
+이 글에서 설치한 메일 계정 Backend인 OpenLDAP 서버가 정상적으로 설치되었는지를 확인하기 위하여 주소창에 https://iredmail-address/phpldapadmin을 입력하면 다음과 같이 로그인 화면이 나타난다. 좌측의 login을 클릭한 후 Login DN에 설치시에 설정한 LDAP 최상위 관리자의 CN인 cn=Manager, dc=gotocloud, dc=local을 그대로 입력하고 설정한 암호를 입력한 후 아래의 Authenticate 버튼을 클릭한다.
+
+![](images/윈도우-컨트롤-7-0-300x158.png)
+
+로그인에 성공하면 그림과 같이 phpLDAPadmin 툴이 실행되고 좌측의 트리를 펼쳐보면 최상위 도메인으로 설정한 gotocloud.local 아래에 관리자 메일 주소인 postmaster@gotocloud.local 이 생성되어 있음을 알 수 있다. LDAP에 대한 자세한 설명은 OpenLDAP Tutorial 등 관련 자료를 참조하기 바란다.
+
+![](images/윈도우-컨트롤-71-300x144.png)
+
+### e) Awstats 테스트
+
+iRedMail 설치 시에 로그 분석툴인 Awstats를 설치했다면 주소창에 https://iredmail-address/awstats 를 입력하면 그림과 같이 Windows 로그인 창이 나타난다. 여기에 메일 관리자 계정인 postmaster@gotocloud.local 과 관리자 암호를 입력한다.
+
+![](images/윈도우-컨트롤-91-300x211.png)
+
+로그인에 성공하면 그림과 같이 iRedMail 서버의 접속 통계를 볼 수 있다.
+
+![](images/윈도우-컨트롤-101-300x144.png)
+
+ 
+
+이상의 과정으로 iRedMail 서버 설치를 완료하였다. iRedMail은 오픈소스 메일 서버로 웹메일 및 OpenLDAP 등 계정 관리 기능과 웹기반의 관리툴, 안티 바이러스, 스팸 차단 등을 모두 포함하면서도 쉬운 설치를 지원하는 강력한 메일로 클라우드 서비스를 위해 필요한 사내 메일 서버로 사용하는데 손색이 없을 것으로 판단된다.
+
+설치 완료된 iRedMail의 설정 및 관리툴, 접속 정보에 대한 요약은 iRedMail 설치 디렉토리 (이 글에서는 ~/iRedMail-0.8.5 ) 내의 iRedMail.tips 에 정리되어 있으므로 참조하기 바란다.
+
+(참고) 메일 로그인시 secure http (https)를 사용하지 않고 http로 접속하기를 원할 때는 roundcube mail 설치 디렉토리 (이글에서는 /var/www/roundcubemail) 의 config 디렉토리에 있는 main.inc.php 파일에서 다음 행의 true를 false로 변경하면 된다.
+
+> $rcmail_config[‘force_https’] = false;
+
+그리고 다음의 명령어로 아파치 웹서버를 다시 실행한다.
+
+> # service httpd restart

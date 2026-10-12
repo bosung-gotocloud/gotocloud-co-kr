@@ -1,0 +1,194 @@
+---
+title: "리눅스 서버에 워드프레스 설치"
+date: 2015-06-09T23:08:03+09:00
+source: https://gotocloud.co.kr/?p=366
+categories: []
+tags: []
+---
+
+워드프레스(WordPress)는 오픈 소스 기반의 웹사이트와 블로그를 손쉽게 만들 수 있는 설치형 블로그로 간단하게 설치하여 고급스럽고 전문적인 웹사이트를 쉽게 만들 수 있게 해준다. 전 세계적으로 워드프레스로 만들어진 웹사이트의 비중이 40%에 이른다고 알려져 있으며, 우리나라에서 서울시, 블로터닷넷, 디퍼스(Deepers) 등 유명한 사이트들이 워드프레스 기반으로 작성된 사이트이다. 물론 이글이 실린 GOTOCLOUD도 워드프레스로 만들어져 있다.
+
+워드프레스로 홈페이지를 만들고 웹서비스를 하기 위해서는 몇가지 방법이 있는데 워드프레스 블로그나 홈페이지를 제공하는 사이트에 가입하고 글을 게시하는 가입형 워드프레스(WordPress.com에서 제공하고 있다)는 포털에서 제공하는 블로그와 유사한 방식으로 만들 수 있다. 또는 워드프레스를 웹호스팅으로 제공하는 업체에 가입하여 나만의 페이지를 생성하고 꾸밀 수도 있으며 아예 자신의 서버를 구축하고 여기에 워드프레스를 설치하여 직접 서버를 운영할 수도 있다.
+
+워드프레스에 대한 자료와 설치, 테마 설정, 홈페이지 꾸미기 등에 대해서는 검색을 통하여 수많은 정보를 접할 수 있으므로, 이 글에서는 워드프레스 자체보다는 리눅스 서버에 나만의 워드프레스 서버를 구축하는 방법에 대해서 알아보고자 한다.
+
+## 1. 리눅스 서버 설치
+
+워드프레스는 APM(Apache + PHP + MySQL) 기반에서 운영되는데, APM이 가장 손쉽게 설치되는 운영체제가 리눅스이다. 이 글에서는 CentOS 6 64bit 버전의 리눅스 서버를 구축하고 여기에 워드프레스를 설치하는 과정을 알아볼 것이다.
+
+### a) 자신의 서버에 직접 리눅스 설치
+
+리눅스 서버를 설치하기 위해서는 서버를 준비하고, 리눅스 OS를 선택하고 리눅스 설치과정에 따라서 설치해야하는데 이 과정을 직접 할 수 있는 장비와 리눅스 지식을 갖춘 사람이라면 CentOS 6 64bit 버전을 자신의 서버에 직접 설치한다. CentOS를 설치할 때는 최소 설치(Minimal)로 옵션으로 설치한다. CentOS 6 설치 과정은 여기를 참조하기 바란다.
+
+### b) 클라우드 서버에 리눅스 서버 생성
+
+워드프레스를 위한 리눅스 서버를 손쉽게 설치하고 바로 인터넷에서 서비스 가능하도록 할 때는 클라우드 서버를 사용하는 것이 좋은 선택이다. 클라우드 업체에서 제공하는 서버를 사용할 경우 저렴한 비용으로 회선과 공인 IP 까지 제공받을 수 있으므로 이 글에서는 클라우드 서버에 리눅스 서버를 생성한 다음에 워드프레스를 설치하고자 한다.
+
+클라우드 서버로 CentOS 6 64bit 서버를 만드는 방법에 대해서는 클라우드 서버 생성이라는 글을 따라 그대로 수행하면 된다.
+
+서버를 직접 설치하든 아니면 클라우드 서버로 구성하든 서버의 관리자로 직접 로그인할 수 있는 서버 준비가 완료되면 워드프레스를 설치하는 과정으로 진행한다.
+
+## 2. 리눅스 서버 구성
+
+리눅스 서버 설치가 완료되면 서버에 root 관리자로 로그인한 다음에 다음의 설정을 진행한다.
+
+먼저 SELinux를 비활성화한다. SELinux는 리눅스의 보안을 강화하기 위한 소프트웨어로 서버에 있는 파일 하나 하나에 대한 보안 권한을 설정할 수 있는 대단히 강력한 프로그램이지만 제대로 설정하지 못하면 서버에 불필요한 부하가 가해질 뿐 아니라 서비스 별로 일일이 SELinux 규칙을 정해줘야하므로 일반적인 서비스에서는 비활성화해두는 것이 편하다. 물론 그렇다고 보안에 구멍이 생기는 것은 아니고 방화벽 등 다른 방법으로 보안을 강화할 것이므로 크게 걱정하지 않아도 된다.
+
+### a) SELinux 비활성화
+
+다음의 명령어로 SELinux를 비활성화 한다.
+
+> # setenforce 0
+
+시스템 재시작 시  SELinux가 비활성화 되도록 /etc/sysconfig/selinux 파일을 열어서 중간의 SELINUX=enabled 부분을 그림과 같이 disabled로 수정한다.
+
+![](images/22-300x88.png)
+
+### b) 방화벽 설정
+
+다음으로 리눅스 서버의 방화벽 설정을 변경한다. 리눅스는 기본적으로 보안을 위해 허가된 포트 이외에는 모두 차단하도록 되어 있다. 여기서는 ssh 접속을 위한 22번 포트와 http 접속을 위한 80번 포트를 제외하고는 모두 차단하기로 한다.
+
+![](images/32-300x124.png)
+
+그림처럼 /etc/sysconfig/iptables 파일을 열어서 중간부분에 -A INPUT -m state –state NEW -m tcp -p tcp –dport 80 -j ACCEPT 라고 추가한 다음 저장한 후 다음의 명령을 실행한다.
+
+> # service iptables restart
+> # chkconfig iptables on
+
+service iptables restart는 iptables라는 방화벽 서비스를 재시작하는 명령이고, chkconfig iptables on은 시스템 시작시에 iptables 서비스를 활성화하는 명령이다.
+
+### c) 시간동기화
+
+다음으로 리눅스 서버의 시간을 인터넷 시간과 일치하도록 ntpd라는 시간동기화 서비스를 활성화하고 시스템 시작시에 항상 실행되도록 등록한다. ntpd를 실행하기 전에 서버가 인터넷에 접속이 가능하도록 설정되어 있어야한다. 클라우드 서버 생성의 3.네트워크 생성을 참조하기 바란다.
+
+> # yum -y install ntp
+> # service ntpd start
+> # chkconfig ntpd on
+
+###
+
+### d) APM (Apache, PHP, MySQL) 설치
+
+다음으로 워드프레스에서 필요한 Apache 웹서버, PHP 및 MySQL 데이터베이스를 설치한다. CentOS에서는 yum이라는 패키지 관리 프로그램을 사용하여 세가지 패키지를 설치할 수 있다.
+
+> # yum install -y httpd mysql-server php php-mysql php-gd php-ldap php-imap
+
+이 명령어를 입력하면 패키지가 설치가 진행되고 패키지 설치가 완료된다. 패키지 설치가 완료되면 httpd 와 myslqd 서비스를 실행하고 시스템 시작시에 실행되도록 서비스를 등록한다.
+
+> # service httpd start
+> # service mysqld start
+> # chkconfig httpd on
+> # chkconfig mysqld on
+
+지금까지의 과정이 정상적으로 완료되면 인터넷 창을 열어서 인터넷 주소 창에 http://ip-address 를 입력하면 다음과 같이 웹페이지가 나타날 것이다.
+
+![](images/72-300x183.png)
+
+## 3. 워드프레스 설치
+
+워드프레스를 설치하기 위한 리눅스 서버의 준비가 완료되면 워드프레스를 설치하고 구성한다.
+
+### a) 워드프레스 다운로드
+
+다음의 명령어로 관리자 홈디렉토리 아래에 워드프레스 최신 버전 (한글버전)을 다운로드 한 후 압축을 푼다.
+
+> # cd ~
+> # wget https://ko.wordpress.org/wordpress-4.2.4-ko_KR.tar.gz
+> # tar zxvf wordpress-4.2.4-ko_KR.tar.gz
+> ( http://ko.wordpress.org 에 접속하면 최신 버전 또는 이전 버전을 다운로드 할 수 있다. 원하는 버전을 다운로드 한다)
+
+압축을 풀면 실행한 디렉토리에서 ls 명령어를 실행하면 다음 그림과 같이  wordpress라는 디렉토리가 생성된다.
+
+![](images/82-300x22.png)
+
+### b) MySQL 데이터베이스 설정
+
+다음으로 워드프레스를 위한 MySQL 데이터베이스를 설정한다.
+
+MySQL DB에 root로 로그인한다.
+
+> # mysql -u root -p
+> Enter password:
+
+초기 암호는 없으므로 엔터키를 입력하면 로그인된다. 로그인 한 다음에 MySQL root 암호를 변경한다. 여기에서 password 부분을 원하는 암호로 설정한다.
+
+> mysql> SET PASSWORD = PASSWORD(‘password‘);
+
+워드프레스 DB를 생성한다. 여기에서는 DB 이름을 wordpress로 지정하였다. 원하는 DB 이름을 지정해주면 된다.
+
+> mysql> CREATE DATABASE wordpress;
+
+다음으로 wp라는 워드프레스 DB 사용자를 생성하고 암호를 부여한다. dbpassword 대신에 자신이 원하는 암호를 입력한다.
+
+> mysql> CREATE USER wp@localhost;
+> mysql> SET PASSWORD FOR wp@localhost = PASSWORD(‘dbpassword‘);
+
+다음으로 wp라는 user에게 wordpress DB의 권한을 부여한다.
+
+> mysql> GRANT ALL PRIVILEGES ON wordpress.* TO wp@localhost IDENTIFIED BY ‘dbpassword‘;
+> mysql> FLUSH PRIVILEGES;
+
+이상으로 워드프레스를 위한 데이터베이스 설정이 완료되었으므로 exit 명령어로 MySQL DB에서 빠져 나온다.
+
+> mysql> exit;
+
+### c) 워드프레스 설정
+
+ 
+
+압축을 풀어둔 워드프레스 파일을 /wordpress 디렉토리로 복사한 후 설정파일을 생성한다.
+
+> # cp -a ~/wordpress/* /wordpress/
+> # cd /wordpress
+> # cp wp-config-samples.php wp-config.php
+
+/wordpress 디렉토리 안에 만들어진 wp-config.php를 열어 아래와 같이 수정한다.
+
+![](images/사용자-지정-22-300x97.png)
+
+여기서 wordpress에는 앞에서 생성한 DB 이름, wp에는 DB 사용자 이름, dbpassword 부분에는 DB 사용자의 암호를 입력한다.
+
+다음의 명령어를 수행하여 /wordpress 디렉토리의 권한을 apache.apache로 변경한다.
+
+> # cd /
+> # chown -R apache.apache /wordpress
+
+웹서버 설정 파일 /etc/httpd/conf/httpd.conf 파일에서 기본 디렉토리를  /wordpress로 변경한다. 중간 부분의 DocumentRoot 부분을 찾아서 다음 그림과 같이 /wordpress로 변경한다.
+
+![](images/131-300x46.png)
+
+그리고 바로 아래에 있는 AllowOverride None을 AllowOverride All 로 수정한다.
+
+![](images/141-300x107.png)
+
+그리고 /etc/php.ini 파일을 열어서 post_max_size 의 기본값이 8M 인데 이 값을 적절히 크게 조절하여, 미디어 파일을 워드프레스에 업로드할 때 용량 제한에 걸리지 않도록 해준다. 그리고 httpd 서비스를 재시작한다.
+
+> # service httpd restart
+
+모든 설정이 정상정으로 완료되면 http://ip-address 를 입력하면 다음과 같이 워드프레스 설정화면이 나타난다.
+
+![](images/151-278x300.png)
+
+ 
+
+위의 설정 화면에서 사이트 제목 및 사용자명, 비밀번호, 이메일 주소 등을 입력한 후 워드프레스 설치하기를 눌러 워드프레스 설치를 완료한다.
+
+### d) SMTP 플러그인 설치
+
+### 다음으로 워드프레스에서 sendmail의 SMTP를 통해 메일을 보내기 위한 플러그인을 설치한다. 워드프레스 설정의 플러그인 메뉴의 플러그인 설치에서 WP-Mail-SMTP를 검색해서 설치한다. 설치 후에 Email 설정에서 다음과 같이 설정한다.
+
+![](images/e-mail-300x200.png)
+
+- From Email: 워드프레스에서 발송되는 메일의 발송자 e-mail  주소를 입력한다.
+
+- From Name: 발송자의 이름을 입력한다.
+
+- Mailer: 메일 발송에 사용될 메일 프로그램을 선택한다. 여기에서는 Use the PHP mail() function to send emails를 선택한다.
+
+- Return Path: 회신 주소로 발송자 e-mail을 사용할 경우 체크한다.
+
+이와 같이 설정한 후 변경 사항을 저장하고 아래에 Test Email 란에 메일 주소를 입력하여 메일이 발송되는 지 테스트한다.
+
+## 맺는 말
+
+이 글에서는 CentOS 6 64bit 리눅스를 기준으로 리눅서 서버를 설치하고 워드프레스를 설치하기 위한 Apache, PHP, MySQL를 설치한 후에 필요한 설정과 워드프레스 패키지를 설치하는 과정을 논하였다.  설치가 완료된 후 워드프레스 자체에 대한 설정이 진행되어야 하며, 이에 대해서는 다른 글에서 설명하고자 한다.
