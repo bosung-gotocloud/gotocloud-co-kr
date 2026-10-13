@@ -69,7 +69,7 @@ IDC에 의하면, 데스크탑 관리 활동의 31%는 하드웨어 유지보수
 이러한 관점에서 최근의 가상화 기술을 데스크탑 관리 및 운영에 적용하고자 하는 시도가 이루어져 왔으며, 이중에서 가장 널리 알려진 기술이 Citrix가 제공하고 있는 프리젠테이션 가상화 또는 SBC(Server Based Computing)로 통칭되는 어플리케이션 가상화와 데스크탑 가상화 기술이라고 할 수 있다.
 
  
-![](/posts/post-189/images/1-300x123.png)
+![](/gotocloud-co-kr/posts/post-189/images/1-300x123.png)
 
 그림 1 프리젠테이션 가상화 기본 개념
 
@@ -110,7 +110,7 @@ IDC에 의하면, 데스크탑 관리 활동의 31%는 하드웨어 유지보수
 - ### 데스크탑 가상화 구성
 
  
-![](/posts/post-189/images/2-300x119.png)
+![](/gotocloud-co-kr/posts/post-189/images/2-300x119.png)
 
 그림 2 XenDesktop 구성도
 
@@ -123,7 +123,7 @@ IDC에 의하면, 데스크탑 관리 활동의 31%는 하드웨어 유지보수
 구체적으로 데스크탑 가상화를 구성하는 세부 솔루션 스택은 다음과 같다.
 
  
-![](/posts/post-189/images/3-300x186.png)
+![](/gotocloud-co-kr/posts/post-189/images/3-300x186.png)
 
 그림 3 XenDesktop 솔루션 스택
 
@@ -136,7 +136,7 @@ XenDesktop을 구성하기 위해서는 가상화 환경 위에 사용자 인증
 사용자는 위의 데스크탑 가상화 환경으로 접속하게 되면, 자신에게 할당된 데스크탑에 대해 네트워크로 접속하게 되는데, 고속의 이미지 전송을 위해서 ICA 프로토콜을 이용하게 된다.
 
  
-![](/posts/post-189/images/4-300x204.png)
+![](/gotocloud-co-kr/posts/post-189/images/4-300x204.png)
 
 그림 4 가상데스크탑 구성 예
 
@@ -146,19 +146,19 @@ XenDesktop을 구성하기 위해서는 가상화 환경 위에 사용자 인증
 
 - ### XenDesktop 사용 예
 
-![](/posts/post-189/images/5-300x168.png)
+![](/gotocloud-co-kr/posts/post-189/images/5-300x168.png)
 
 그림 5 XenDesktop 로그인
 
  그림 5에서와 같이 사용자는 자신의 단말에서 Web을 통해 로그인하게 되면, 자신이 사용할 수 있는 데스크탑이 나타난다. 이 때 사용자에게 할당된 데스크탑은 하나일 수도 있고, 정책에 따라서 여러 개(오피스 작업용, 개발용 등)일 수도 있다. IT 부서에서는 사용자의 권한이나 업무에 따라서, 특정한 어플리케이션이 깔려 있는 데스크탑을 종류별로 만들어서 정책에 따라서 데스크탑의 사용권한을 할당할 수 있다.
 
-![](/posts/post-189/images/6-300x168.png)
+![](/gotocloud-co-kr/posts/post-189/images/6-300x168.png)
 
 그림 6 가상 데스크탑 실행 화면
 
 로그인에 성공하게 되면, 그림 6에서와 같이 자신이 사용할 수 있는 데스크탑이 실제 PC와 동일한 형태로 나타나게 된다. 사용자는 전체화면으로 사용할 수도 있고, 복수의 데스크탑을 사용할 경우는 윈도우 형태로 크기를 조절해서 번갈아 가면서 사용할 수도 있다.
 
-![](/posts/post-189/images/7-300x168.png)
+![](/gotocloud-co-kr/posts/post-189/images/7-300x168.png)
 
 그림 7 XenDesktopDDC 접속 현황
 
@@ -176,7 +176,7 @@ XenDesktop을 구성하기 위해서는 가상화 환경 위에 사용자 인증
 
 - ### 사외에서 사내 서버로의 보안 접속
 
-![](/posts/post-189/images/8-300x96.png)
+![](/gotocloud-co-kr/posts/post-189/images/8-300x96.png)
 
 그림 8 외부 사용자 사내 서버 접속
 
@@ -188,7 +188,7 @@ XenDesktop을 구성하기 위해서는 가상화 환경 위에 사용자 인증
 
 - ### 협력사에서 본사의 ERP 등 기간 시스템으로의 접속
 
-![](/posts/post-189/images/9-300x91.png)
+![](/gotocloud-co-kr/posts/post-189/images/9-300x91.png)
 
 그림 9 협력사 – 본사 협업 환경 구성
 
@@ -202,7 +202,7 @@ XenDesktop을 구성하기 위해서는 가상화 환경 위에 사용자 인증
 
 - ### 업무 연속성 지원 (재택 근무, 사외 근무)
 
-![](/posts/post-189/images/10-300x91.png)
+![](/gotocloud-co-kr/posts/post-189/images/10-300x91.png)
 
 그림 10 업무 연속성 지원 시스템
 

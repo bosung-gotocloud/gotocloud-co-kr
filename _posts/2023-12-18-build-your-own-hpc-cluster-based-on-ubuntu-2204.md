@@ -10,11 +10,11 @@ source: "https://gotocloud.co.kr/?p=2289"
 
 # Typical HPC configuration
 
-[![](/posts/post-2289/images/image-1-1-1024x491.png)](https://gotocloud.co.kr/wp-content/uploads/2023/12/image-1-1.png)
+[![](/gotocloud-co-kr/posts/post-2289/images/image-1-1-1024x491.png)](https://gotocloud.co.kr/wp-content/uploads/2023/12/image-1-1.png)
 
 # Test Configuration
 
-[![](/posts/post-2289/images/화면-캡처-2023-12-18-150022.png)](images/화면-캡처-2023-12-18-150022.png)
+[![](/gotocloud-co-kr/posts/post-2289/images/화면-캡처-2023-12-18-150022.png)](images/화면-캡처-2023-12-18-150022.png)
 
 - All nodes have two NICs (In AWS, one NIC is used)
 

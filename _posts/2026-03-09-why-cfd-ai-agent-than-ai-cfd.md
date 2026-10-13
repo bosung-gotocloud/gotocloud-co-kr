@@ -22,7 +22,7 @@ Microsoft identified a massive “Productivity Gap”—the time wasted moving 
 
 Current mainstream AI-CFD research focuses heavily on Solving-Based approaches, such as Surrogate Modeling or Physics-Informed Neural Networks (PINNs). While accelerating the solver is impressive, it often results in a “local optimization” that ignores the broader engineering reality.
 
-[![](/posts/post-2375/images/AI-CFD_vs_CFD_AI-agent-1024x558.png)](https://gotocloud.co.kr/wp-content/uploads/2026/03/AI-CFD_vs_CFD_AI-agent.png)AI-CFD vs. CFD AI-Agent
+[![](/gotocloud-co-kr/posts/post-2375/images/AI-CFD_vs_CFD_AI-agent-1024x558.png)](https://gotocloud.co.kr/wp-content/uploads/2026/03/AI-CFD_vs_CFD_AI-agent.png)AI-CFD vs. CFD AI-Agent
 The Critical Limitations:
 
 - The 80/20 Bottleneck: According to the NASA CFD Vision 2030 Study, approximately 80% of the total engineering cycle time is consumed by geometry preparation and meshing, not the solver itself. Reducing solver time to zero only addresses a fraction of the problem.
@@ -35,7 +35,7 @@ The Critical Limitations:
 
 This research proposes a move toward the CFD AI-Agent—an Intelligent Orchestrator that manages the complete, original CFD simulation workflow rather than replacing the physics.
 
-[![](/posts/post-2375/images/CFD_AI-agent_Workflow-1-1024x559.png)](https://gotocloud.co.kr/wp-content/uploads/2026/03/CFD_AI-agent_Workflow-1.png)AI Agent-based Aerodynamic Analysis Workflow
+[![](/gotocloud-co-kr/posts/post-2375/images/CFD_AI-agent_Workflow-1-1024x559.png)](https://gotocloud.co.kr/wp-content/uploads/2026/03/CFD_AI-agent_Workflow-1.png)AI Agent-based Aerodynamic Analysis Workflow
 
 ### Why the CFD AI-Agent Wins:
 

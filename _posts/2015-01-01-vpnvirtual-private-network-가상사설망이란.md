@@ -26,7 +26,7 @@ VPN에 대한 이해를 위해서는 먼저 사설망(Private Network)과 공중
 
 그런데 은행 등에서 본점과 지점을 사설망으로 연결하고자 할 경우에는 어떻게 연결할 것인지를 고민해보자. 가장 안전하게 연결하고 싶다면 본점과 지점을 전용회선으로 연결하고 이를 사설망으로 구축하면 될 것이다. 그러나 전용회선의 경우 보안성이나 품질 면에서는 인터넷 망에 비해서 뛰어날 수도 있으나(최근에는 인터넷이 품질이나 속도는 더 뛰어나다) 직접 전용망을 구축하거나 통신 사업자에게서 전용망을 임대하고 이를 연결하기 위한 전용 네트워크 장비를 도입하는데 막대한 비용이 소요된다.
 
-![](/posts/post-1280/images/보라넷전용선-300x222.jpg)
+![](/gotocloud-co-kr/posts/post-1280/images/보라넷전용선-300x222.jpg)
 
 위의 그림은 2000년대 초반 데이콤(현재는 LG U+)에서 서비스하던 보라넷 전용선의 가격이다. 그림에서 볼 수 있듯이 512Kbps의 속도를 내는 전용선을 임대하는 경우에도 수십에서 수백만원의 비용을 지불해야만 했음을 알 수 있다. 이러한 이유로 고가의 전용망을 대체하여 인터넷을 이용하여 사설망처럼 안전한 전용 네트워크를 구성하고자 하는 요구가 생겨났는데, 이러한 요구로 개발된 것이 바로 VPN(Virtual Private Network,  가상 사설망)이다. 최근의 기업 전용선 서비스는 저 당시의 전용선 서비스와는 달리 인터넷 망을 이용하여 고정 IP를 부여하는 서비스가 대부분으로 엄밀한 의미에서의 사설망이라고 볼 수는 없다. 물론 최근에도 기관간에 전용망을 구축해주는 서비스는 통신사업자들이 계속 수행하고 있으나, 그 비용은 여전히 높은 실정이다.
 
@@ -36,10 +36,10 @@ VPN에 대한 이해를 위해서는 먼저 사설망(Private Network)과 공중
 
 > 공중 네트워크를 통해 한 회사나 몇몇 단체가 내용을 바깥 사람에게 드러내지 않고 통신할 목적으로 쓰이는 사설 통신망이다. 가상 사설망에서 메시지는 인터넷과 같은 공공망 위에서 표준 프로토콜을 써서 전달되거나, 가상 사설망 서비스 제공자와 고객이 서비스 수준 계약을 맺은 후 서비스 제공자의 사설망을 통해 전달된다.
 
-![](/posts/post-1280/images/전용망-2.gif)
+![](/gotocloud-co-kr/posts/post-1280/images/전용망-2.gif)
 전용망 연결
 
-![](/posts/post-1280/images/vpn-1.gif)
+![](/gotocloud-co-kr/posts/post-1280/images/vpn-1.gif)
 VPN 연결
 위의 그림에서와 같이 본점과 지점간에 전용망을 연결하는 것과 공중망(인터넷) 상에서 VPN 터널을 구성하고 VPN을 연결하는 것이 논리적으로 동일하다고 할 수 있으며, VPN은 인터넷을 통해 전용망과 같은 사설 네트워크를 구성할 수 있도록 해주는 기술이라고 이해하면 된다.
 
@@ -53,13 +53,13 @@ VPN 연결을 구성하는 가장 중요한 요소인 VPN 터널링 프로토콜
 
 PPTP는 PPP(Point-to-Point) 접속을 확장하여 원격 사용자와 사설망 사이의 보안 접속을 제공하는 Layer 2 터널링 프로토콜로 마이크로소프트, 3Com 등이 공동으로 제안하였다.  PPTP는 인터넷 프로토콜인 TCP/IP를 그대로 이용하면서도 외부인이 접근할 수 없는 별도의 가상사설망을 구축할 수 있도록 해주는 프로토콜이다. PPTP를 사용하여 VPN 사용자(클라이언트)는 PPP(우리가 흔히 쓰는 다이얼업 방식의 인터넷 연결이 여기에 해당된다) 방식으로 서버에 접속한 후 인증을 받으면 VPN 터널이 생성되고 이를 통해 VPN 연결이 가능해진다. 주로 외부에서 사내의 서버에 접속하기 위해 널리 이용되며 Microsoft Windows, 안드로이드 등 다양한 OS에서 기본적으로 제공하고 있다.
 
-![](/posts/post-1280/images/pptp-238x300.png)
+![](/gotocloud-co-kr/posts/post-1280/images/pptp-238x300.png)
 
-![](/posts/post-1280/images/Screenshot_2015-01-03-00-18-57-180x300.png)
+![](/gotocloud-co-kr/posts/post-1280/images/Screenshot_2015-01-03-00-18-57-180x300.png)
 
 위의 그림은 Windows와 안드로이드에 기본으로 내장된 VPN 클라이언트에서 PPTP를 지원하는 예를 나타내고 있다.
 
-![](/posts/post-1280/images/pptp-capsule-300x80.gif)
+![](/gotocloud-co-kr/posts/post-1280/images/pptp-capsule-300x80.gif)
 
 위의 그림은 PPTP 프로토콜의 캡슐화 및 암호화 과정을 나태낸다. 그림에서와 같이 터널링된 데이터에 대해서 PPTP 프로토콜은 수정된 버전의 GRE(Generic Routing Encapsulation)를 사용하여 PPP 프레임을 캡슐화하고 캡슐화된 PPP 프레임의 페이로드에 대해 암호화나 압축을 수행하게 된다. 이 때 PPP 프레임은 MS-CHAP v2 또는 EAP-TLS 인증 프로세스에서 생성된 암호화 키를 사용하여  MPPE(Microsoft Point-to-Point Encryption, Microsoft 지점 간 암호화)로 암호화할 수 있다. 사용자 인증은 PPP 인증을 이용한다.
 
@@ -75,11 +75,11 @@ L2TP는 Microsoft가 제안한 PPTP와 Cisco가 제안한 L2F(Layer 2 Forwardin
 
 L2TP/IPsec의 캡슐화는 L2TP 캡슐화와 IPsec 캡슐화의 두 단계로 구성된다.
 
-![](/posts/post-1280/images/l2tp-capsule-300x85.gif)
+![](/gotocloud-co-kr/posts/post-1280/images/l2tp-capsule-300x85.gif)
 
 위의 그림과 같이 PPP 프레임(PPP 헤더+IP 데이터그램)이 L2TP 헤더 및 UDP 헤더와 함께 래핑된다.
 
-![](/posts/post-1280/images/ipsec-capsule-300x115.gif)
+![](/gotocloud-co-kr/posts/post-1280/images/ipsec-capsule-300x115.gif)
 
 다음으로  L2TP 메시지가 IPsec ESP(Encapsulating Security Payload) 헤더 및 트레일러, 메시지 무결성과 인증을 제공하는 IPsec 인증 트레일러, 최종 IP 헤더와 함께 래핑된다. IP 헤더에는 VPN 클라이언트와 VPN 서버에 해당하는 원본 및 대상 IP 주소가 포함되어 있다. 이 때, L2TP 메시지는 IKE(Internet Key Exchange) 협상 프로세스에서 생성된 암호화키를 사용하여 DES(Date Encryption Standard) 또는 3DES(Triple DES)로 암호화된다. L2TP에서는 인증서 혹은 사전 공유키를 사용하여 인증을 수행한다.
 
@@ -93,7 +93,7 @@ IPsec은 VPN 터널링의 업계 표준 프로토콜로 강력한 사용자 인�
 
 IPsec은 보안 게이트웨이 간의 연결 상태에 따라 터널 모드와 전송(Transport) 모드의 두가지 모드로 나뉘어진다.
 
-![](/posts/post-1280/images/transport_vs_tunnel-300x174.png)
+![](/gotocloud-co-kr/posts/post-1280/images/transport_vs_tunnel-300x174.png)
 [출처: http://www.c-jump.com] 터널 모드에서는 IP 헤더와 페이로드를 모두 암호화하지만 전송 모드에서는 페이로드만 암호화하는데 두 모드의 특징은 다음과 같다.
 
 - 전송(Transport) 모드

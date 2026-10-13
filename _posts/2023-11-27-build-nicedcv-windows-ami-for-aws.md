@@ -20,15 +20,15 @@ This document explains the AWS AMI build procedure of the NiceDCV 2023 server on
 
 - Install NiceDCV Server 2023. During installation, allow the DCV service in the firewall and configure the automatic start of the DCV service.
 
-![](/posts/post-2000/images/image-300x233.png)
+![](/gotocloud-co-kr/posts/post-2000/images/image-300x233.png)
 
 Check that the manual creation of the console session. The console session will be created manually by the User-data script at the instance launch time.
 
-![](/posts/post-2000/images/image-1-300x233.png)
+![](/gotocloud-co-kr/posts/post-2000/images/image-1-300x233.png)
 
 - Check the DCV server is started automatically in the Windows Services of the Task manager.
 
-![](/posts/post-2000/images/image-2-300x190.png)
+![](/gotocloud-co-kr/posts/post-2000/images/image-2-300x190.png)
 
 # Enable the session-storage
 
@@ -52,7 +52,7 @@ To create a AMI, install the latest updates and configure the EC2 Launch V2 sett
 
 - From the Start menu, run the All Programs -> EC2Launch settings and configure parametes as following
 
-- ![](/posts/post-2000/images/image-3-200x300.png)
+- ![](/gotocloud-co-kr/posts/post-2000/images/image-3-200x300.png)
 
 - Check the Extend OS partion to use all disk spaces of the instance
 
@@ -73,7 +73,7 @@ net localgroup administrators userid /add
 “C:\Program Files\NICEDCV\Server\bin\dcv.exe” create-session 0 –owner “userid” –name “sessionname” –storage-root “C:\Users\session-storage”
 </script>
 
-![](/posts/post-2000/images/image-6-300x140.png)
+![](/gotocloud-co-kr/posts/post-2000/images/image-6-300x140.png)
 
 In the above script, userid with the ComplexPassword is created in the Windows server and the sessionname DCV session is automatically created. The user can login as the userid with password using the DCV client. The password should be satisfied for the Windows security policy.
 And, in the security group setting, 8443/tcp should be allowed in the in-bound connection.

@@ -36,7 +36,7 @@ In this article, to verify the feasibility of the cellular IP network for drone�
 
 (1) Pixhawk flight controller and android cellular phone supporting OTG
 
-![](/posts/post-1828/images/그림2-300x162.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림2-300x162.jpg)
 
 - If the cell phone supports OTG, when the Pixhawk and the cell phone are connected, LED of the Pixhawk blinks
 
@@ -62,7 +62,7 @@ MAVCell-Beta  is used in this implementation
 
 - To get the IP address information of the cell phone, Network Info II  is recommended to be installed
 
-![](/posts/post-1828/images/그림3-300x255.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림3-300x255.jpg)
 
 (4) GCS computer connected to the internet
 
@@ -74,7 +74,7 @@ MAVCell-Beta  is used in this implementation
 
 - Before you start to setup VPN connection in the cell phone, you should install the VPN server previously. The instructions of the VPN server setup are described in https://gotocloud.co.kr/?p=1371 and https://gotocloud.co.kr/?p=1446
 
-![](/posts/post-1828/images/그림4-300x120.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림4-300x120.jpg)
 
 ① In the cell phone, go to “System Settings -> More networks” and select “VPN”
 
@@ -88,7 +88,7 @@ MAVCell-Beta  is used in this implementation
 
 ⑥ You can see the “Drone VPN” in the “VPN” setup
 
-![](/posts/post-1828/images/그림5-300x120.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림5-300x120.jpg)
 
 ⑦ Click “Drone VPN” added in the previous setup
 
@@ -100,7 +100,7 @@ MAVCell-Beta  is used in this implementation
 
 (2) Connect the Pixhawk using OTG USB cable and establish MAVlink connection with the cell phone
 
-![](/posts/post-1828/images/그림6-300x125.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림6-300x125.jpg)
 
 ①  Connect the cell phone and the Pixhawk flight controller using OTG USB cable and check the establishment of connection. If the connection is established, LED’s of the Pixhawk start to blink
 
@@ -118,19 +118,19 @@ MAVCell-Beta  is used in this implementation
 
 - Before you start to establish the VPN connection between the cell phone and the GCS computer, you should install the VPN client software on your GCS computer previously. The instructions of the VPN client setup are described in https://gotocloud.co.kr/?p=1371 and https://gotocloud.co.kr/?p=1446
 
-![](/posts/post-1828/images/그림7-300x183.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림7-300x183.jpg)
 
 ① In the VPN client, click the VPN server tab (AWS VPN in this example) for connecting VPN
 
 ② If connected successfully, the VPN server assigns IP address such as “192.168.30.11”
 
-![](/posts/post-1828/images/그림8-300x137.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림8-300x137.jpg)
 
 - The VPN connection between the cell phone and the GCS computer by the VPN tunnel is established. Both devices are the member of 192.168.10.x subnet, therefore the Mission Planner on the GCS computer can connect to the cell phone directly through the VPN tunnel
 
 (4) Connect to the Pixhawk in the Mission Planner
 
-![](/posts/post-1828/images/그림9-300x180.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림9-300x180.jpg)
 
 ① In the Mission Planner, select the connection type as “TCP” and push “CONNECT” button
 
@@ -138,11 +138,11 @@ MAVCell-Beta  is used in this implementation
 
 ③  Enter the remote port as “5760” as described in 4-(2) section
 
-![](/posts/post-1828/images/그림10-300x162.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림10-300x162.jpg)
 
 - The connection between the Mission Planner and the Pixhawk is established, the Mission Planner starts to get parameters from the Pixhawk through the VPN network over the cellular network
 
-![](/posts/post-1828/images/그림11-300x162.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림11-300x162.jpg)
 
 - When the connection is established, the moving of Pixhwak is appeared in the HUD
 
@@ -150,7 +150,7 @@ MAVCell-Beta  is used in this implementation
 
 ### 5. Test Flight
 
-![](/posts/post-1828/images/그림12-300x114.jpg)
+![](/gotocloud-co-kr/posts/post-1828/images/그림12-300x114.jpg)
 
 - Waypoints were assigned through the cellular network and arming and mission start commands were executed in the Mission Planner without RC transmitter
 

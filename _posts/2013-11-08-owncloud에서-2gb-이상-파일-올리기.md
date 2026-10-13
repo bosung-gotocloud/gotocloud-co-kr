@@ -64,6 +64,6 @@ PHP 5.5.3은 2013년 8월 22일 PHP.net에서 릴리즈되었으며 CentOS/RHEL 
 
 ownCloud 5 웹서버를 재시작한 후 ownCloud 5 에 admin 계정으로 로그인한 후 admin -> 관리자 페이지에서 최대 업로드 크기를 앞에서 설정한 최대 값 (8 GB)로 변경한다.
 
-![](/posts/post-934/images/ownCloud-최대-업로드-크기-21-300x212.png)
+![](/gotocloud-co-kr/posts/post-934/images/ownCloud-최대-업로드-크기-21-300x212.png)
 
 이상의 과정을 완료하면 2GB 가 넘는 큰 파일도 문제 없이 업로드가 가능하다.

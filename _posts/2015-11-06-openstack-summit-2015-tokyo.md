@@ -12,7 +12,7 @@ source: "https://gotocloud.co.kr/?p=1541"
 
 OpenStack Summit 행사는 일반 사용자, 관리자 및 개발자 들이 구축사례, 신기술, 비즈니스 세션, 워크숍 둥이 진행되는 The OpenStack Conference와 OpenStack의 커뮤니티 멤버들과 워킹 그룹이 차기 버전의 요구사항을 협의하고 교류를 진행하는 The OpenStack Design Summit 두 개의 행사가 동시에 병행으로 개최된다. 이와 함께, OpenStack Summit 이 개최되는 기간에는 새로운 버전의 OpenStack이 발표되는데 이번 Summit에서는 OpenStack의 12 번째 버전인 Liberty가 발표되었다.
 
-![](/posts/post-1541/images/마지막-영역-4-300x170.png)
+![](/gotocloud-co-kr/posts/post-1541/images/마지막-영역-4-300x170.png)
 
 이번 Summit에는 전세계 56개국에서 5000명 이상이 참석하였으며, 인텔, IBM, NEC, 랙스페이스 등 전세계의 86개의 OpenStack 관련 IT 기업들이 협찬을 하였으며, 10월 27일과 28일에 진행된 Keynote에서는 SK텔레콤, 일본의 NTT, IBM, 라쿠텐, 야후 등 주요 ICT 기업이 자신들의 IT 환경을 OpenStack 기반의 클라우드로 전환한 사례를 발표하였다. 그리고, Cloud Application, Security, IT Strategy, Network, Storage, Container, Cloud Implementation 등에 관해 Keynote를 포함하여 300여개의 세션 발표가 진행되었다. (Summit 동영상 보기)
 

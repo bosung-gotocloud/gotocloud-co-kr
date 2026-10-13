@@ -20,7 +20,7 @@ However, to achieve BVLOS flight, drone makers and service providers must resolv
 
 Figure 1 shows typical drone communication links for C2 communication and data transmission. C2 communication link known as RC communication between the transmitter and the receiver uses 2.4 GHz ISM (Industry-Science-Medical) frequency band. 5.8 GHz ISM band is commonly used for transmit the video/audio taken by the drone to the receiver of the ground station. To communicate the C2 with telemetry information between the drone and the ground station, 433 MHz or 915 MHz frequency band is commonly used. Using this link, the autonomous waypoint flight is carried out and the drone’s flight status and sensor information are sent to the ground station. To enable BVLOS flight, these communication links need to provide the stable and reliable connections between the drone and the operators in the long range.
 
-[![](/posts/post-1876/images/그림1-300x253.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림1.jpg)Figure 1 Typical drone communication links
+[![](/gotocloud-co-kr/posts/post-1876/images/그림1-300x253.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림1.jpg)Figure 1 Typical drone communication links
 For the long range communication, various technologies have been developed and applied. DJI (Dà-Jiāng Innovations) provides LightBridge2 [3] which integrates three different communication links as described in figure 1. Within a distance of up to 2 km, LightBridge2 communicates C2, telemetry data and 1080p 60 fps (frame per second) high definition video stream, using 2.4 GHz frequency. Digital Micro Device released XLRS (eXtend Long Range System) products [4] using 433, 868, 902 and 950 MHz, which support RC and telemetry communication up to 100 km. Dragon Link also provides the up to 60 km C2 communication devices named Dragon Link V3 [5].
 
 In addition to various long range C2 and telemetry communication devices, long range real time video transmission devices have been developed by various companies. Amimon Connex [6] series support 1080p 60 fps video transmission up to the 3 km range and fpv blue showed the 720p video transmission up to 7 km distance under 50 millisecond latency using 50 mW output [7].
@@ -33,32 +33,32 @@ Despite various cellular network technologies are being applied to the drone, un
 
 Figure 2 shows the conceptual diagram of the introduced system. On the drone, the telemetry and video transmission device is installed with the flight controller and the high definition camera. The device is composed of four main components, MAVLink [12] application, Streamer, VPN Client and cellular modem. The flight controller and the device are connected by the data communication interface such as UART, USB etc., which is supported by flight controller. And MAVLink protocol is used for the data exchange between both. MAVLink application on the device manages the telemetry data from/to the flight controller and supports TCP or UDP connection from/to the ground station. The video stream from the camera is transmitted to the device by HDMI, USB etc., which is supported by the camera. The Streamer process and encode the video stream to transmit.
 
-[![](/posts/post-1876/images/그림2-300x168.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림2.jpg)Figure 2 Conceptual diagram of communication
+[![](/gotocloud-co-kr/posts/post-1876/images/그림2-300x168.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림2.jpg)Figure 2 Conceptual diagram of communication
 Because almost mobile carriers do not provide public IP address to cellular devices, VPN client and server are used for assigning direct accessible IP addresses to the device on the drone and the ground station. The cellular modem supports the physical connection to the internet over cellular network. Similarly, the ground station has four components such as GCS software, video stream decoder, VPN client and cellular modem. When the connection of the drone device and the ground station established, VPN tunnel is made between both devices and they connect each other directly by accessible IP addresses assigned by VPN server.
 
 Figure 3 shows components of the proposed system on the drone. On a Pixhawk flight controller, there are a total of 5 serial ports, and the micro USB port (aka serial0) is used to connect to the smartphone using a USB cable. The MAVLink server handles the telemetry data between the smartphone and the flight controller. And it responds the TCP or UDP connection from the ground station.
 
-[![](/posts/post-1876/images/그림3-300x129.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림3.jpg)Figure 3 Components of the system on the drone
+[![](/gotocloud-co-kr/posts/post-1876/images/그림3-300x129.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림3.jpg)Figure 3 Components of the system on the drone
 In the proposed device, the MAVLink server opens TCP/5760 port and it servers the connection from the ground station. The video stream is taken by the embedded camera of the smartphone and it is encoded and transmitted by the RTSP (Real Time Streaming Protocol) server application which is installed on the smartphone. The RTSP server provides the video stream to the RTSP client which is installed on the ground station. TCP/8080 port is used in this configuration. Because mobile carriers do not provide public IP addresses to the cellular devices as described above, VPN connection is used for direct connection between the smartphone on the drone and the ground station. To make the VPN connection, the embedded L2TP (Layer 2 Tunneling Protocol) over IPsec VPN client of the smartphone is used. Both the video stream of the RTSP server and the telemetry data of the MAVlink server are delivered to the VPN client and the VPN client processes the direct connection from/to the ground station through the VPN server in the internet.
 
 Figure 4 shows components of the proposed system on the ground station. The GCS software which includes MAVLink processing module connects to the drone using TCP/5760 port through the VPN client. The RTSP player decodes and plays the video stream transmitted from the drone using LTE communication link through VPN client using TCP/8080 port. The ground station only need to be connected to the internet regardless of the connection type such as wire or mobile network. If the ground station maybe connected to the internet by the cellular network such as LTE, there will be no distance limit in the flight of the drone.
 
-[![](/posts/post-1876/images/그림4-300x188.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림4.jpg)Figure 4 Components of the ground station
+[![](/gotocloud-co-kr/posts/post-1876/images/그림4-300x188.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림4.jpg)Figure 4 Components of the ground station
 When the VPN connection between the smartphone of the drone and the ground station is established, the VPN server assigns the IP addresses of the same subnet, for example, “192.168.30.x” to the drone and the ground station. Both devices are members of the same subnet, therefore the ground station and the drone are connected directly through VPN tunnel. Figure 5 shows the result of the established VPN connection of both devices.
 
-[![](/posts/post-1876/images/그림5-300x137.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림5.jpg)Figure 5 Established VPN connection of the system
+[![](/gotocloud-co-kr/posts/post-1876/images/그림5-300x137.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림5.jpg)Figure 5 Established VPN connection of the system
 
 ## Verification of the design
 
 In this study, to verify the feasibility of the proposed design, the android smartphone is installed on the drone and the autonomous waypoint flight is carried out using LTE network. At the same time, the video stream is transmitted to the ground station by LTE network. Figure 6 shows the physical configuration of the proposed system in which the Pixhawk flight controller and the Samsung Galaxy S5 smartphone which is installed on the drone without gimbal, are connected by USB cable. In this study, 680 mm wheelbase sized drone with i-Rotor 5010 360kv motors and Pixhawk 1 flight controller with ArduCopter 3.5.7 is used.
 
-[![](/posts/post-1876/images/그림6-300x129.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림6.jpg)Figure 6 Physical configuration of the system
+[![](/gotocloud-co-kr/posts/post-1876/images/그림6-300x129.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림6.jpg)Figure 6 Physical configuration of the system
 Figure 7 shows the result of the test flight. In this flight, seven waypoints are assigned and total three times flights are carried out. During the flight, the real time 1280 x 720 HD video with 30 fps is transmitted to the ground station and is played and recorded in the RTSP player of the ground station.
 
-[![](/posts/post-1876/images/그림7-300x96.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림7.jpg)Figure 7 Test flight log and waypoints
+[![](/gotocloud-co-kr/posts/post-1876/images/그림7-300x96.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림7.jpg)Figure 7 Test flight log and waypoints
 In figure 8, the screen shot of the ground station during the flight is shown. In the flight, HD video stream shows the average frame rate as 29~30 fps and the telemetry is transmitted as 115200 baud rate. The LTE transmission speed of video stream is set as 4 Mbps in the test flight.
 
-[![](/posts/post-1876/images/그림8-300x144.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림8.jpg)[Figure 8 Screenshot of telemetry and video stream transmission during the flight](https://youtu.be/hROnEF0GsPU)
+[![](/gotocloud-co-kr/posts/post-1876/images/그림8-300x144.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림8.jpg)[Figure 8 Screenshot of telemetry and video stream transmission during the flight](https://youtu.be/hROnEF0GsPU)
 
 ## Conceptual design for multi drones and ground stations
 
@@ -66,10 +66,10 @@ In the previous section, we described the conceptual design for the transmission
 
 As shown in figure 9, the drone and the ground station make peer-to-peer connection for data transmission including video stream and telemetry data. The server located in the internet handles session descriptions, server side logging and administrations, and relay the connection for both devices. The typical example of this architecture is the peer-to-peer video conferencing solution based on WebRTC [13] technology.
 
-[![](/posts/post-1876/images/그림9-300x177.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림9.jpg)Figure 9 Conceptual design based on RTC
+[![](/gotocloud-co-kr/posts/post-1876/images/그림9-300x177.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림9.jpg)Figure 9 Conceptual design based on RTC
 In addition to the peer-to-peer connection, multiple video stream and telemetry data can be processed at the separate central drone management system as shown in figure 10. Because session descriptions and connection information are stored and processed in the server, each drone’s video stream and telemetry data can be monitored and controlled in the central drone management system as the user’s purpose.
 
-[![](/posts/post-1876/images/그림10-300x183.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림10.jpg)Figure 10 Central drone management system
+[![](/gotocloud-co-kr/posts/post-1876/images/그림10-300x183.jpg)](https://gotocloud.co.kr/wp-content/uploads/2018/09/그림10.jpg)Figure 10 Central drone management system
 
 ## Concluding remarks
 

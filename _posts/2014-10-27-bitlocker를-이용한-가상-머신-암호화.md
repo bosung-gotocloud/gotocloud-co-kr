@@ -52,9 +52,9 @@ source: "https://gotocloud.co.kr/?p=1184"
 
 - 다운로드한 가상 머신 이미지를 직접 생성한 VM에 연결하여 가상 디스크에 저장된 데이터를 유출한다.
 
-![](/posts/post-1184/images/사용자-지정-71-300x190.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-71-300x190.png)
 
-![](/posts/post-1184/images/사용자-지정-8-300x191.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-8-300x191.png)
 
 위의 그림은 Windows 8.1에서 Hyper-V 사용 (3)라는 글에서 생성한 가상 머신의 가상 하드 디스크의 내용을 호스트 PC에서 빼내는 예를 나타낸다. 가상 머신의 하드 디스크는 vhdx라는 파일 포맷으로 저장되어 있는데 이는 탐색기에서 손쉽게 “탑재” 명령을 수행하면 디스크내의 내용을 누구나 볼 수 있게 되고, 악의적인 관리자는 가상 머신의 데이터를 바로 유출할 수 있다.
 
@@ -90,91 +90,91 @@ Microsoft BitLocker는 Windows Vista 운영체제부터 도입된 드라이브 �
 
 암호화하고자 하는 운영체제가 위의 OS에 포함되어 있다면 다음의 과정으로 자신의 가상 머신을 암호화할 수 있다. 이 글은 Windows Server 2012가 설치된 가상 머신을 기준으로 설명하고 있는데, Windows 8 또는 Windows 8.1에서도 동일한 과정으로 암호화할 수 있다.
 
-![](/posts/post-1184/images/사용자-지정-5-300x212.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-5-300x212.png)
 
-![](/posts/post-1184/images/사용자-지정-6-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-6-300x225.png)
 
 먼저 가상 머신에 로그인(호스트 PC가 아니라 자신이 관리하는 가상 머신에서 수행한다)하여 서버 관리자의 “역할 및 기능 추가 마법사”의 기능 항목에서 BitLocker 드라이브 암호화를 체크하면 관련된 역할과 기능이 추가된다.
 
-![](/posts/post-1184/images/사용자-지정-101-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-101-300x225.png)
 
 제어판의 시스템 및 보안 항목을 선택하면 그림과 같이 “BitLocker 드라이브 암호화”라는 항목이 나타나는데 이를 선택한다.
 
-![](/posts/post-1184/images/사용자-지정-111-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-111-300x225.png)
 
 그림과 같이 운영 체제 드라이브인 C:와 고정 데이터 드라이브인 D:가 모두 BitLocker가 꺼져 있는 상태로 나타나며 우측에 BitLocker 켜기 항목이 보인다. 먼저 운영 체제 드라이브인 C: 드라이브의 BitLocker 켜기를 선택한다.
 
-![](/posts/post-1184/images/사용자-지정-121-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-121-300x225.png)
 
 C 드라이브의 BitLocker를 켜면 그림과 같이 “호환되는 TPM이 없이 BitLocker 허용”이라는 오류 메시지가 나면서 더 진행이 되지 않음을 알 수 있다. 그 원인은 BitLocker의 하드웨어 요구 사항인 TPM(Trusted Platform Module)이 가상 머신에서는 지원이 되지 않기 때문이다. BitLocker는 암호화 키를 하드웨어 TPM 모듈에 보관하고 이를 이용하여 추가 보안 기능인 시작 전 시스템 무결성 확인 및 다단계 인증을 제공하기 때문에 TPM이 없는 하드웨어나 가상 머신에서는 정책 관리자를 통해 오류 메시지 나타나 있는 “시작 시 추가 인증 요청” 정책을 변경해줘야 한다.
 
-![](/posts/post-1184/images/사용자-지정-131-300x222.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-131-300x222.png)
 
-![](/posts/post-1184/images/사용자-지정-14-1-300x190.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-14-1-300x190.png)
 
 그림에서와 같이 커맨드 창에서 “gpedit.msc”를 입력하여 로컬 그룹 정책 편집기를 실행한 후 “컴퓨터 구성 -> 관리 템플릿 -> BitLocker 드라이브 암호화 -> 운영 체제 드라이브” 탭으로 이동하여 “시작 시 추가 인증 요구”를 선택한다.
 
-![](/posts/post-1184/images/사용자-지정-152-300x274.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-152-300x274.png)
 
 그림과 같이 “시작 시 추가 인증 요구”의 “사용”을 선택하고 옵션에서 “호환 TPM이 없는 BitLocker 허용”을 선택한다. 이렇게 함으로써 TPM이 지원되지 않는 하드웨어나 가상 머신에서는 USB 플래시 드라이브에 암호를 저장하거나 가상 머신의 시작시에 관리자가 암호를 입력하여야만 운영 체제 드라이브의 암호를 풀어 시스템을 시작할 수 있게 된다.
 
-![](/posts/post-1184/images/사용자-지정-171-300x73.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-171-300x73.png)
 
 정책 편집기를 종료한 후 커맨드 명령어로 그림과 같이 “gpupdate /force”를 입력하여 변경된 정책을 적용한다.
 
-![](/posts/post-1184/images/사용자-지정-18-300x231.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-18-300x231.png)
 
-![](/posts/post-1184/images/사용자-지정-191-300x230.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-191-300x230.png)
 
 다시 운영 체제 드라이브에 대해 BitLocker 켜기를 선택하면 그림과 같이 시스템 시작시 드라이브 잠금을 해제하는 방법을 선택하게 되는데, 가상 머신의 경우 USB 드라이브를 삽입할 방법이 없으므로 “암호 입력”을 선택한 후 다음으로 진행한다. 여기에서 입력하는 암호는 BitLocker를 해제하여 시스템을 시작하기 위한 것으로 잘 기억해 둔다.
 
-![](/posts/post-1184/images/사용자-지정-201-300x231.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-201-300x231.png)
 
-![](/posts/post-1184/images/사용자-지정-211-300x243.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-211-300x243.png)
 
 다음으로 암호를 분실했을 때를 대비한 복구 키 백업 방법을 선택한다. 파일에 저장할 경우 C 드라이브의 복구 키는 동일한 드라이브에 저장할 수 없으므로 D 드라이브에 임시로 저장하고 그 파일을 열어 별도로 기록해 둔다. 그리고 가상 머신에서는 이 파일을 삭제하여 서버가 운영 중에 복구키가 탈취될 위험을 제거한다.
 
-![](/posts/post-1184/images/사용자-지정-222-300x231.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-222-300x231.png)
 
 이상의 과정을 거치면 암호화를 시작할 준비가 되며 계속을 누르면 시스템이 재부팅 된 후 암호화를 시작한다.
 
-![](/posts/post-1184/images/사용자-지정-231-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-231-300x225.png)
 
-![](/posts/post-1184/images/사용자-지정-241-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-241-300x225.png)
 
 가상 머신을 재시작하면 그림과 같이 드라이브 잠금 해제 암호를 입력하는 화면이 나오고, 여기에 앞에서 입력한 BitLocker 암호를 입력하면 드라이브 암호화가 진행된다. 이상으로 운영체제 암호화가 완료된다.
 
-![](/posts/post-1184/images/사용자-지정-261-300x231.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-261-300x231.png)
 
-![](/posts/post-1184/images/사용자-지정-271-300x231.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-271-300x231.png)
 
 다음으로 데이터 디스크인 E 드라이브의 암호화를 진행한다. 운영 체제 드라이브 암호화화 마찬가지로 잠금 해제 암호를 입력한다. 그리고 아래에 자동 잠금 해제를 선택하게 되면 운영 체제 드라이브의 암호화가 해제될 때 자동으로 데이터 드라이브도 암호화가 해제되게 할 수 있다. 드라이브 자동 잠금 해제는 반드시 운영 체제 드라이브인 C 드라이브가 암호화가 되어 있을 경우에만 활성화 된다. 마찬가지로 복구 키를 적당한 위치에 백업해 둔다. 마찬가지로 가상 머신에서는 이 파일을 삭제하여 서버가 운영 중에 복구키가 탈취될 위험을 제거한다.
 
-![](/posts/post-1184/images/사용자-지정-281-300x224.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-281-300x224.png)
 
 그림과 같이 데이터 드라이브인 E 드라이브도 암호화가 완료된다.
 
-![](/posts/post-1184/images/사용자-지정-312-300x225.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-312-300x225.png)
 
 BitLocker 가 적용된 드라이브에 대해서 제어판의 “BitLocker 드라이브 암호화”에 가서 보면 그림과 같이 BitLocker 관리가 가능하다. 여기에서 암호 변경, 암호 제거 및 BitLocker를 끌 수 있으며, 앞에서 설정한 복구 키를 다시 백업할 수 있다.
 
-![](/posts/post-1184/images/사용자-지정-321-300x179.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-321-300x179.png)
 
-![](/posts/post-1184/images/사용자-지정-331-300x191.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-331-300x191.png)
 
 BitLocker 가 적용된 가상 하드 디스크인 vhdx 파일에 대해서 호스트 PC에서 내용을 보고자 할 경우는 그림과 같이 드라이브가 BitLocker로 보호되어 있다는 메시지가 나타나며, 암호를 입력하지 않을 경우 파일 탑재가 불가능하므로, 허가 받지 않은 사람은 가상 머신의 하드 디스크의 내용을 볼 수 없게 보호된다.
 
-![](/posts/post-1184/images/사용자-지정-341-300x179.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-341-300x179.png)
 
-![](/posts/post-1184/images/사용자-지정-351-300x192.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-351-300x192.png)
 
 호스트 PC에서 BitLocker 암호를 입력하게 되면 그 내용을 그림과 같이 볼 수 있게 되므로, BitLocker 암호가 탈취되지 않도록 반드시 잘 보관하기 바란다.
 
-![](/posts/post-1184/images/사용자-지정-36-300x200.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-36-300x200.png)
 
 호스트 PC나 다른 PC에서 복구 암호를 입력한 후 마운트하게 되면 그림과 같이 BitLocker 관리를 호스트 PC에서도 수행할 수 있으며, 여기에서도 복구 키를 백업할 수 있다. 클라우드에서는 호스트 PC에 접근할 수 없으므로, 이 과정은 불가능할 수 있다. 호스트 PC에 복구 키를 백업할 경우 이 내용을 별도로 보관하고 역시 파일은 삭제하기를 권장한다.
 
-![](/posts/post-1184/images/사용자-지정-381-300x83.png)
+![](/gotocloud-co-kr/posts/post-1184/images/사용자-지정-381-300x83.png)
 
 복구 키 파일을 열어 보면 복구 키는 6자리 수 8개로 총 48개의 숫자로 이루어져 있으며, 복구 암호를 분실하였을 경우 이 복구 키를 이용하여 드라이브 암호를 해제할 수도 있다.
 

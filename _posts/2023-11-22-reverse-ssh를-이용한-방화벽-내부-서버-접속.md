@@ -18,7 +18,7 @@ Inbound 접속은 차단되어 있고, outbound 접속만 허용되는 방화벽
 
 아래의 그림은 인터넷 영역에 ssh jumpbox를 구동하고, 방화벽 내부 서버의 3389/tcp (RDP) 포트와 ssh jumpbox의 3151/tcp 포트를 reverse ssh 터널로 연결하고 방화벽 외부의 인터넷 영역에 있는 client에서 ssh jumpbox의 3151/tcp 포트를 통해 내부서버의 3389포트로 RDP 접속하는 구성 예를 보여주고 있다.
 
-![](/posts/post-1993/images/reversessh-rdp-300x87.png)
+![](/gotocloud-co-kr/posts/post-1993/images/reversessh-rdp-300x87.png)
 
 ## SSH jumpbox 설정
 

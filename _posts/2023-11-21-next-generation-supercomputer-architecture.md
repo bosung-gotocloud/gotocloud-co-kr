@@ -12,7 +12,7 @@ source: "https://gotocloud.co.kr/?p=1985"
 
 For several decades after the vector supercomputers were replaced by the MPP (massively parallel processor) type supercomputers, the general architecture of high performance computing clusters consisted of compute nodes, high bandwidth and low latency interconnect network devices, and parallel file system based shared storage. Jobs were controlled by job schedulers such as LSF, PBS, and Slurm. Recently, some GUI nodes with high performance GPUs have been used for graphical pre- and post-processing.
 
-![](/posts/post-1985/images/typical-hpc-architecture-300x144.jpg)
+![](/gotocloud-co-kr/posts/post-1985/images/typical-hpc-architecture-300x144.jpg)
 
 Typical HPC architecture
 
@@ -27,6 +27,6 @@ The State of Data Science 2021 which is a report by Anaconda that surveyed over 
 
 Jupyter Scheduler, which is being developed to enable users to run Jupyter notebooks on from local computer to cloud, on-premise HPC cluster, JupyterHub, any supercomputer can be seen as an example that reflects this concept well. Similarly, various supercomputer applications should also be designed with an architecture that includes middleware that allows users to run them on the desired infrastructure, from local computer to cloud, on-premise HPC, or exascale supercomputer, at the desired time. Along with this, storage architecture that can minimize data movement should also be considered.
 
-![](/posts/post-1985/images/Jupyter_Interactive_HPC_Service-233x300.png)
+![](/gotocloud-co-kr/posts/post-1985/images/Jupyter_Interactive_HPC_Service-233x300.png)
 
 Jupyter as Common Technology Platform for Interactive HPC Services | DeepAI

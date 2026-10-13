@@ -30,7 +30,7 @@ Hyper-V는 원래 Window Server 2008에서 최초로 지원되기 시작하여 W
 
 SLAT는 인텔의 네할렘(Nehalem) 이후의 프로세서와 AMD의 바르셀로나 이후의 프로세서에서 지원되는 기능이고 BIOS에서 다음과 같이 Virtualization을 지원하는지 확인하고 이를 활성화 해야 한다.
 
-![](/posts/post-1106/images/6116_HVW8a-300x182.jpg)
+![](/gotocloud-co-kr/posts/post-1106/images/6116_HVW8a-300x182.jpg)
 
 사용자는 Hyper-V를 데스크탑 PC에서 실행하기 이전에 먼저 자신의 프로세서가 SLAT를 지원하면서 BIOS에서 위와 같이 가상화 기능(VTx)를 지원하고 있는지 사전에 확인하기 바란다. 최근에 판매되고 있는 대부분의 PC에서는 위의 기능이 지원되고 있으므로 Hyper-V의 구동에 크게 문제가 없을 것으로 생각된다.
 

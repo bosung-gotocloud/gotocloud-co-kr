@@ -17,7 +17,7 @@ virtual hosts run parallely on the same physical platform to isolate each other,
 VirtualBox provide 8 PCI network adapter for each virtual machine. 4 of them can be conﬁgured with
 GUI, and all 8 adapters can be conﬁgured through command.
 
-![](/posts/post-2304/images/image-300x219.png)
+![](/gotocloud-co-kr/posts/post-2304/images/image-300x219.png)
 
 ### Network Types
 
@@ -32,7 +32,7 @@ and the default gateway address is 10.0.2.2.
 All virtual machines can access to the pyhsical network through the NAT provided by the virtualBox.
 But access to VM from the outside is not allowed.
 
-![](/posts/post-2304/images/NAT-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/NAT-300x204.jpg)
 
 - NAT Networking
 
@@ -41,7 +41,7 @@ through the NAT like a wiﬁ router at home.
 Diﬀerent from NAT, each virtual machine has diﬀerent IP address but shares the same gateway in the
 VirtualBox. Each virtual machines can connect to each other.
 
-![](/posts/post-2304/images/NAT_Netwok-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/NAT_Netwok-300x204.jpg)
 
  
 
@@ -53,7 +53,7 @@ virtual machines are connected to the physical network directly.
 
 In this networking, all virtual machines are accessible from the outside network.
 
-![](/posts/post-2304/images/Bridged_Netwok-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/Bridged_Netwok-300x204.jpg)
 
 - Internal Networking
 
@@ -65,7 +65,7 @@ All virtual machines can not access to the pyshical network and also the host ma
 
 to all virtual machines.
 
-![](/posts/post-2304/images/Internal_Netwok-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/Internal_Netwok-300x204.jpg)
 
 - Host-only Networking
 
@@ -75,7 +75,7 @@ but isolated from the outside network.
 
 The only diﬀerence is that the host machine is added into the internal network.
 
-![](/posts/post-2304/images/Host-only_Network-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/Host-only_Network-300x204.jpg)
 
 ###
 
@@ -83,4 +83,4 @@ The only diﬀerence is that the host machine is added into the internal network
 
 In the VirtualBox, multiple network interfaces can be set up on one virtual machine. For example, one interface is attached to the NAT network and the other to the Host-only network. NAT network enables connection to the internet and the Host-only network enables the connection from the host machine to the virtual machine.
 
-![](/posts/post-2304/images/two-nic-1-300x204.jpg)
+![](/gotocloud-co-kr/posts/post-2304/images/two-nic-1-300x204.jpg)
