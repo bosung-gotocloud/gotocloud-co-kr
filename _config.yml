@@ -10,6 +10,14 @@ author:
 permalink: /posts/:year/:month/:day/:title/
 paginate: 10
 paginate_path: /page:num/
+plugins:
+- jekyll-include-cache
+- jekyll-paginate
+- jekyll-sitemap
+- jekyll-seo-tag
+- jekyll-archives
+- jekyll-feed
+
 exclude:
 - posts.json
 - .gitignore
